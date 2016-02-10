@@ -4,17 +4,36 @@ class Main {
     public static void main(String[] args) {
         Printer printer = new Printer();
         printer.print(new StringBuffer(""
-            +"When creating a Paper object, it is the application's responsibility "
-            +"to ensure that the paper size and the imageable area are compatible.\n"
-            +"For example, if the paper size is changed from 11 x 17 to 8.5 x 11, the "
-            +"application might need to reduce the imageable area so that whatever is "
-            +"printed fits on the page."));
+            +"A thread-safe, mutable sequence of characters. A string buffer is like a String, but can be modified. At any point in time it contains some particular sequence of characters, but the length and content of the sequence can be changed through certain method calls.\n"
+            +"String buffers are safe for use by multiple threads. The methods are synchronized where necessary so that all the operations on any particular instance behave as if they occur in some serial order that is consistent with the order of the method calls made by each of the individual threads involved.\n"
+            +"The principal operations on a StringBuffer are the append and insert methods, which are overloaded so as to accept data of any type. Each effectively converts a given datum to a string and then appends or inserts the characters of that string to the string buffer. The append method always adds these characters at the end of the buffer; the insert method adds the characters at a specified point.\n"
+            +"For example, if z refers to a string buffer object whose current contents are \"start\", then the method call z.append(\"le\") would cause the string buffer to contain \"startle\", whereas z.insert(4, \"le\") would alter the string buffer to contain \"starlet\".\n"
+            +"In general, if sb refers to an instance of a StringBuffer, then sb.append(x) has the same effect as sb.insert(sb.length(), x).\n"
+            +"Whenever an operation occurs involving a source sequence (such as appending or inserting from a source sequence) this class synchronizes only on the string buffer performing the operation, not on the source.\n"
+            +"Every string buffer has a capacity. As long as the length of the character sequence contained in the string buffer does not exceed the capacity, it is not necessary to allocate a new internal buffer array. If the internal buffer overflows, it is automatically made larger. As of release JDK 5, this class has been supplemented with an equivalent class designed for use by a single thread, StringBuilder. The StringBuilder class should generally be used in preference to this one, as it supports all of the same operations but it is faster, as it performs no synchronization.\n"
+            +"\n"
+            +"A thread-safe, mutable sequence of characters. A string buffer is like a String, but can be modified. At any point in time it contains some particular sequence of characters, but the length and content of the sequence can be changed through certain method calls.\n"
+            +"String buffers are safe for use by multiple threads. The methods are synchronized where necessary so that all the operations on any particular instance behave as if they occur in some serial order that is consistent with the order of the method calls made by each of the individual threads involved.\n"
+            +"The principal operations on a StringBuffer are the append and insert methods, which are overloaded so as to accept data of any type. Each effectively converts a given datum to a string and then appends or inserts the characters of that string to the string buffer. The append method always adds these characters at the end of the buffer; the insert method adds the characters at a specified point.\n"
+            +"For example, if z refers to a string buffer object whose current contents are \"start\", then the method call z.append(\"le\") would cause the string buffer to contain \"startle\", whereas z.insert(4, \"le\") would alter the string buffer to contain \"starlet\".\n"
+            +"In general, if sb refers to an instance of a StringBuffer, then sb.append(x) has the same effect as sb.insert(sb.length(), x).\n"
+            +"Whenever an operation occurs involving a source sequence (such as appending or inserting from a source sequence) this class synchronizes only on the string buffer performing the operation, not on the source.\n"
+            +"Every string buffer has a capacity. As long as the length of the character sequence contained in the string buffer does not exceed the capacity, it is not necessary to allocate a new internal buffer array. If the internal buffer overflows, it is automatically made larger. As of release JDK 5, this class has been supplemented with an equivalent class designed for use by a single thread, StringBuilder. The StringBuilder class should generally be used in preference to this one, as it supports all of the same operations but it is faster, as it performs no synchronization.\n"
+            +"\n"
+            +"A thread-safe, mutable sequence of characters. A string buffer is like a String, but can be modified. At any point in time it contains some particular sequence of characters, but the length and content of the sequence can be changed through certain method calls.\n"
+            +"String buffers are safe for use by multiple threads. The methods are synchronized where necessary so that all the operations on any particular instance behave as if they occur in some serial order that is consistent with the order of the method calls made by each of the individual threads involved.\n"
+            +"The principal operations on a StringBuffer are the append and insert methods, which are overloaded so as to accept data of any type. Each effectively converts a given datum to a string and then appends or inserts the characters of that string to the string buffer. The append method always adds these characters at the end of the buffer; the insert method adds the characters at a specified point.\n"
+            +"For example, if z refers to a string buffer object whose current contents are \"start\", then the method call z.append(\"le\") would cause the string buffer to contain \"startle\", whereas z.insert(4, \"le\") would alter the string buffer to contain \"starlet\".\n"
+            +"In general, if sb refers to an instance of a StringBuffer, then sb.append(x) has the same effect as sb.insert(sb.length(), x).\n"
+            +"Whenever an operation occurs involving a source sequence (such as appending or inserting from a source sequence) this class synchronizes only on the string buffer performing the operation, not on the source.\n"
+            +"Every string buffer has a capacity. As long as the length of the character sequence contained in the string buffer does not exceed the capacity, it is not necessary to allocate a new internal buffer array. If the internal buffer overflows, it is automatically made larger. As of release JDK 5, this class has been supplemented with an equivalent class designed for use by a single thread, StringBuilder. The StringBuilder class should generally be used in preference to this one, as it supports all of the same operations but it is faster, as it performs no synchronization.\n"
+));
     }
 }
 
 class Printer {
-    private int WIDTH = 18;
-    private int HEIGHT = 2;
+    private int WIDTH = 100;
+    private int HEIGHT = 70;
     private int pageNumber = 0;
     private int numLines = 0;
 
@@ -53,7 +72,9 @@ class Printer {
 
     private void printLine(String line) {
         numLines++;
-        System.out.println(line);
+        System.out.print("| ");
+        System.out.printf("%-"+WIDTH+"s", line);
+        System.out.println(" |");
         if (numLines > HEIGHT) {
             pageBreak();
             numLines = 0;
@@ -61,13 +82,16 @@ class Printer {
     }
 
     private void pageBreak() {
-        for (int i = 0; i < WIDTH; i++) {
+        System.out.printf("\n");
+        for (int i = 0; i < WIDTH + 4; i++) {
             System.out.print("=");
         }
-        System.out.println();
+        System.out.printf("\n\n");
     }
 
     public void print(StringBuffer input) {
+        pageBreak();
+        
         String paragraph;
         int from = 0;
         int to = input.length();
@@ -81,5 +105,7 @@ class Printer {
         // the rest
         paragraph = input.substring(from, input.length());
         printParagraph(paragraph);
+
+        pageBreak();
     }
 }
